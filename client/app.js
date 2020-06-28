@@ -10,9 +10,6 @@ const App = () => {
   return (
     <div>
       <Navbar />
-      {/* <MiniDrawer /> */}
-      {/* <NavbarWithPersistenDrawer /> */}
-      {/* <NavbarWithTempDrawer /> */}
       <Routes />
     </div>
   )

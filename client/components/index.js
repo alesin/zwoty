@@ -6,8 +6,3 @@
 export {default as Navbar} from './Navbar'
 export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
-
-export {
-  default as NavbarWithPersistentDrawer
-} from './NavbarWithPersistentDrawer'
-export {default as NavbarWithTempDrawer} from './NavbarWithTempDrawer'
