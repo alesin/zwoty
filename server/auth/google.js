@@ -11,11 +11,7 @@ module.exports = router
  * values. In development, a good practice is to keep a separate file with
  * these secrets that you only share with your team - it should NOT be tracked
  * by git! In this case, you may use a file called `secrets.js`, which will
- * set these environment variables like so:
- *
- * process.env.GOOGLE_CLIENT_ID = 'your google client id'
- * process.env.GOOGLE_CLIENT_SECRET = 'your google client secret'
- * process.env.GOOGLE_CALLBACK = '/your/google/callback'
+ * set these environment variables.
  */
 
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
@@ -24,7 +20,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   const googleConfig = {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK
+    callbackURL: process.env.GOOGLE_CALLBACK_URL
   }
 
   const strategy = new GoogleStrategy(
@@ -54,7 +50,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   )
 
   router.get(
-    '/callback',
+    '/verify',
     passport.authenticate('google', {
       successRedirect: '/home',
       failureRedirect: '/login'
