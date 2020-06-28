@@ -4,28 +4,75 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
-  </div>
-)
+import {makeStyles} from '@material-ui/core/styles'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+
+const useStyles = makeStyles(theme => ({
+  // root: {
+  //   flexGrow: 1
+  // },
+  appBar: {
+    backgroundColor: '#d3b225'
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
+  },
+  appBarLink: {
+    color: 'white'
+  }
+}))
+
+const Navbar = ({handleClick, isLoggedIn}) => {
+  const classes = useStyles()
+
+  return (
+    <AppBar position="sticky" className={classes.appBar}>
+      <Toolbar>
+        {/* <IconButton
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        >
+          <Icon>menu</Icon>
+        </IconButton> */}
+
+        <Typography variant="h6" className={classes.title}>
+          <Link to="/" className={classes.appBarLink}>
+            Zwoty
+          </Link>
+        </Typography>
+      </Toolbar>
+    </AppBar>
+  )
+
+  // <div>
+  //   <nav>
+  //     {isLoggedIn ? (
+  //       <div>
+  //         {/* The navbar will show these links after you log in */}
+  //         <Link to="/home">Home</Link>
+  //         <a href="#" onClick={handleClick}>
+  //           Logout
+  //         </a>
+  //       </div>
+  //     ) : (
+  //       <div>
+  //         {/* The navbar will show these links before you log in */}
+  //         <Link to="/login">Login</Link>
+  //         <Link to="/signup">Sign Up</Link>
+  //       </div>
+  //     )}
+  //   </nav>
+  //   <hr />
+  // </div>
+  // )
+}
 
 /**
  * CONTAINER

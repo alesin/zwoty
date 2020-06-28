@@ -1,7 +1,7 @@
 {
   "name": "zwoty_BM",
   "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "description": "Health is wealth!",
   "engines": {
     "node": "~12.11.1"
   },
@@ -38,9 +38,10 @@
       "git add"
     ]
   },
-  "author": "Fullstack Academy of Code",
+  "author": "Alesin Tygrys Tipler",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^4.10.2",
     "axios": "^0.19.0",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^6.0.0",
