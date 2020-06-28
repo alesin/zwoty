@@ -4,7 +4,8 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
-import clsx from 'clsx'
+//#region    MATERIAL-UI imports
+// import clsx from 'clsx'
 import {makeStyles} from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -18,8 +19,20 @@ import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import MailIcon from '@material-ui/icons/Mail'
+
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
+import PersonAddIcon from '@material-ui/icons/PersonAdd'
+// import KitchenIcon from '@material-ui/icons/Kitchen'
+// import LocalDiningIcon from '@material-ui/icons/LocalDining'
+import RestaurantIcon from '@material-ui/icons/Restaurant'
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter'
+import HistoryIcon from '@material-ui/icons/History'
+import HotelIcon from '@material-ui/icons/Hotel'
+// import NewReleasesIcon from '@material-ui/icons/NewReleases'
+// import MoodBadIcon from '@material-ui/icons/MoodBad'
+import ScatterPlotIcon from '@material-ui/icons/ScatterPlot'
+//#endregion
 
 const useStyles = makeStyles(theme => ({
   // root: {
@@ -59,35 +72,94 @@ const Navbar = ({handleClick, isLoggedIn}) => {
     setState({...state, [anchor]: open})
   }
 
-  const list = anchor => (
+  const loggedInList = anchor => (
     <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === 'top' || anchor === 'bottom'
-      })}
+      className={classes.list}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem>
+          <Typography variant="overline">JOURNAL</Typography>
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <RestaurantIcon />
+          </ListItemIcon>
+          <ListItemText primary="Food" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <FitnessCenterIcon />
+          </ListItemIcon>
+          <ListItemText primary="Exercise" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <HistoryIcon />
+          </ListItemIcon>
+          <ListItemText primary="Habits" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <HotelIcon />
+          </ListItemIcon>
+          <ListItemText primary="Sleep" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <ScatterPlotIcon />
+          </ListItemIcon>
+          <ListItemText primary="Period" />
+        </ListItem>
       </List>
+
       <Divider />
+
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem>
+          <Typography variant="overline">ACCOUNT</Typography>
+        </ListItem>
+        <ListItem button component={Link} to="/profile">
+          <ListItemIcon>
+            <AccountCircleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Profile" />
+        </ListItem>
+        <ListItem button onClick={handleClick}>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItem>
+      </List>
+    </div>
+  )
+
+  const loggedOutList = anchor => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List>
+        <ListItem>
+          <Typography variant="overline">ACCOUNT</Typography>
+        </ListItem>
+        <ListItem button component={Link} to="/login">
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText primary="Login" />
+        </ListItem>
+        <ListItem button component={Link} to="/signup">
+          <ListItemIcon>
+            <PersonAddIcon />
+          </ListItemIcon>
+          <ListItemText primary="Signup" />
+        </ListItem>
       </List>
     </div>
   )
@@ -111,7 +183,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
           open={state.left}
           onClose={toggleDrawer('left', false)}
         >
-          {list('left')}
+          {isLoggedIn ? loggedInList('left') : loggedOutList('left')}
         </Drawer>
 
         <Typography variant="h6" className={classes.title}>
