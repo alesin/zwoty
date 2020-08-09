@@ -4,5 +4,6 @@
  * having to figure out which file they belong to!
  */
 export {default as Navbar} from './Navbar'
-export {default as UserHome} from './user-home'
-export {Login, Signup} from './auth-form'
+export {default as UserDash} from './UserDash'
+export {Login, Signup} from './AuthForm'
+export {default as FitbitDash} from './FitbitDash'
