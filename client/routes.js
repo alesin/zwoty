@@ -2,15 +2,18 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
+import {Login, Signup, UserDash, FitbitDash} from './components'
 import {me} from './store'
 
+// import {getFitbitProfile} from './store/user'
+
 /**
- * COMPONENT
+ //* COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
+    // this.props.getFitbitProfile()
   }
 
   render() {
@@ -24,8 +27,9 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />\
-            <Route exact path="/profile" component={UserHome} />
+            <Route exact path="/profile" component={UserDash} />
+            <Route exact path="/dash/fitbit/success" component={FitbitDash} />
+            <Route exact path="/dash" component={UserDash} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -36,7 +40,7 @@ class Routes extends Component {
 }
 
 /**
- * CONTAINER
+ //* CONTAINER
  */
 const mapState = state => {
   return {
@@ -51,15 +55,15 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
     }
+    // getFitbitProfile: () => dispatch(getFitbitProfile())
   }
 }
 
-// The `withRouter` wrapper makes sure that updates are not blocked
-// when the url changes
+// The `withRouter` wrapper makes sure that updates are not blocked when the url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes))
 
 /**
- * PROP TYPES
+ //* PROP TYPES
  */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
