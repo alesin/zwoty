@@ -3,15 +3,6 @@ const {User} = require('../db/models')
 const axios = require('axios')
 const isLoggedIn = require('../api/utils/routeProtect')
 
-// const isLoggedIn = (req, res, next) => {
-//     if (req.user === undefined || req.user.id !== Number(req.params.userId)) {
-//     const error = new Error('illegal action')
-//     error.status = 401
-//     return next(error)
-//     }
-//     next()
-// }
-
 router.get('/:userId', isLoggedIn, async (req, res, next) => {
   try {
     // const theUser = await User.findByPk(req.params.userId, {
