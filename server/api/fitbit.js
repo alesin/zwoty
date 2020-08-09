@@ -1,9 +1,9 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
 const axios = require('axios')
-const isLoggedIn = require('../api/utils/routeProtect')
+const {isLegit} = require('../api/utils/routeProtect')
 
-router.get('/:userId', isLoggedIn, async (req, res, next) => {
+router.get('/:userId', isLegit, async (req, res, next) => {
   try {
     // const theUser = await User.findByPk(req.params.userId, {
     //     attributes: ['id']
@@ -21,7 +21,7 @@ router.get('/:userId', isLoggedIn, async (req, res, next) => {
   }
 })
 
-router.get('/:userId/profile', isLoggedIn, async (req, res, next) => {
+router.get('/:userId/profile', isLegit, async (req, res, next) => {
   try {
     // const theUser = await User.findByPk(req.params.userId, {
     //     attributes: ['id']

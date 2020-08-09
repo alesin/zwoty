@@ -47,7 +47,7 @@ router.get('/me', (req, res) => {
 })
 
 // *===========================================
-// *** /AUTH/--service--/
+// *** ROUTES      '/AUTH/--service--/'
 // *===========================================
 router.use('/google', require('./google'))
 router.use('/fitbit', require('./fitbit'))

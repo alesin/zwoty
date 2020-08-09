@@ -11,7 +11,7 @@ import {Button, Link, Divider} from '@material-ui/core'
  */
 export const FitbitDash = props => {
   // const {user} = props
-  //   props.isLoggedIn ? getFitbitProfile() : getFitbitProfile(null)
+  // props.isLoggedIn ? getFitbitProfile(props.userId) : getFitbitProfile(null)
   // props.isLoggedIn ? connectStream('fitbit') : connectStream('nada')
 
   // if (props.fitbit.loading) return <div>loading...</div>
@@ -28,7 +28,7 @@ export const FitbitDash = props => {
           type="button"
           className="fitbit"
           // onClick={getFitbitProfile()}
-          onClick={connectStream('fitbit', props.userId)}
+          onClick={() => props.connectStream('fitbit', props.userId)}
         >
           Connect Fitbit (double-check connection)
         </Button>
@@ -39,7 +39,7 @@ export const FitbitDash = props => {
           type="button"
           className="fitbit_profile"
           // onClick={getFitbitProfile()}
-          onClick={getFitbitProfile(props.userId)}
+          onClick={() => props.getFitbitProfile(props.userId)}
         >
           Import Fitbit Profile
         </Button>
@@ -59,7 +59,8 @@ const mapState = state => {
     userId: state.user.id,
     user: state.user,
     // profile: state.fitbit.profile,
-    fitbit: state.fitbit,
+    profile: state.profile,
+    // fitbit: state.fitbit,
     // loading: state.fitbit.loading,
     isLoggedIn: !!state.user.id
   }

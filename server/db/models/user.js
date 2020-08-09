@@ -8,8 +8,26 @@ const moment = require('moment-timezone')
 const User = db.define('user', {
   email: {
     type: Sequelize.STRING,
-    unique: true
-    // allowNull: false
+    unique: true,
+    // allowNull: false,
+    get() {
+      return () => this.getDataValue('email')
+    },
+    set(value) {
+      this.setDataValue('email', value)
+    }
+  },
+  username: {
+    type: Sequelize.STRING,
+    unique: true,
+    // allowNull: false,
+    // defaultValue: this.email,
+    get() {
+      return () => this.getDataValue('username')
+    },
+    set(value) {
+      this.setDataValue('username', value)
+    }
   },
   firstName: {
     type: Sequelize.STRING
@@ -97,6 +115,20 @@ const setSaltAndPassword = user => {
     user.password = User.encryptPassword(user.password(), user.salt())
   }
 }
+const setUsernameOrEmail = user => {
+  // if (user.changed('username')) {
+  //   user.userName = user.email
+  // }
+  if (!user.email) {
+    if (!user.userName) {
+      if (!user.firstName)
+        user.userName = `${user.lastName}${User.generateSalt()}`
+      user.userName = `${user.firstName}${User.generateSalt()}`
+    }
+
+    user.email = `${user.userName}${User.generateSalt()}`
+  }
+}
 
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
@@ -104,8 +136,31 @@ User.beforeBulkCreate(users => {
   users.forEach(setSaltAndPassword)
 })
 
+// TODO: CONFIRM working!
+User.beforeCreate(async (user, optionsObj) => {
+  if (!user.email) {
+    if (!user.userName) {
+      if (!user.firstName)
+        user.userName = `${user.lastName}${await User.generateSalt()}`
+      user.userName = `${user.firstName}${await User.generateSalt()}`
+    }
+
+    user.email = `${user.userName}${await User.generateSalt()}`
+  }
+  if (!user.userName && user.email) {
+    user.userName = `${user.email}`
+  }
+})
+// User.validationFailed((user, optionsObj) => {
+//   if (!user.firstName) user.userName = `${user.lastName}${User.generateSalt()}`
+// })
+User.validationFailed(setUsernameOrEmail)
+
+//* ==================================
 // ***   Fitbit Methods    ***
-// * INSTANCE Methods
+//* ==================================
+
+// *** INSTANCE Methods
 User.prototype.getAccessToken = function() {
   return this.fitbitAccessToken()
 }

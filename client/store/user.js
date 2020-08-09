@@ -89,9 +89,10 @@ export default function(state = defaultUser, action) {
       return action.user
     case CONNECTED_STREAM:
       if (action.stream === 'fitbit') return {...state, fitbit: action.stream}
-      else return
+      else return {...state, stream: action.stream}
     case GOT_FITBIT_PROFILE:
-      return {...state, fitbit: {...state.fitbit, profile: action.profile}}
+      // return {...state, fitbit: {...state.fitbit, profile: action.profile}}
+      return {...state, profile: action.profile}
     case REMOVE_USER:
       return defaultUser
     default:

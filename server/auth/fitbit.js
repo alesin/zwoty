@@ -2,7 +2,7 @@ const passport = require('passport')
 const router = require('express').Router()
 const FitbitStrategy = require('passport-fitbit-oauth2').FitbitOAuth2Strategy
 const {User} = require('../db/models')
-const isLoggedIn = require('../api/utils/routeProtect')
+const {isLegit} = require('../api/utils/routeProtect')
 module.exports = router
 
 /**
@@ -88,13 +88,13 @@ if (!process.env.FITBIT_CLIENT_ID || !process.env.FITBIT_CLIENT_SECRET) {
 // TODO: API routes to grab data
 // TODO: Protect routes!!!
 
-router.get('/success/:userId', isLoggedIn, async (req, res, next) => {
+router.get('/success/:userId', isLegit, async (req, res, next) => {
   try {
     const theUser = await User.findOne({
       where: {
         id: req.user.id
-      },
-      attributes: ['firstName', 'fitbitId', 'fitbitAccessToken']
+      }
+      // attributes: ['firstName', 'fitbitId', 'fitbitAccessToken']
     })
     console.log('Success connecting Fitbit API in auth!')
     res.json(theUser)
