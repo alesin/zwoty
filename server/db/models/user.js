@@ -4,12 +4,11 @@ const db = require('../db')
 const axios = require('axios')
 const qs = require('qs')
 const moment = require('moment-timezone')
-// const { refreshToken } = require('../../api/fitbit')
 
 const User = db.define('user', {
   email: {
-    type: Sequelize.STRING
-    // unique: true,
+    type: Sequelize.STRING,
+    unique: true
     // allowNull: false
   },
   firstName: {
@@ -23,16 +22,14 @@ const User = db.define('user', {
   },
   password: {
     type: Sequelize.STRING,
-    // Making `.password` act like a func hides it when serializing to JSON.
-    // This is a hack to get around Sequelize's lack of a "private" option.
+    // Making `.password` act like a function hides it when serializing to JSON. HACK for Sequelize's lack of a "private" option.
     get() {
       return () => this.getDataValue('password')
     }
   },
   salt: {
     type: Sequelize.STRING,
-    // Making `.salt` act like a function hides it when serializing to JSON.
-    // This is a hack to get around Sequelize's lack of a "private" option.
+    // Making `.salt` act like a function hides it when serializing to JSON. HACK for Sequelize's lack of a "private" option.
     get() {
       return () => this.getDataValue('salt')
     }
@@ -42,14 +39,12 @@ const User = db.define('user', {
   },
   fitbitId: {
     type: Sequelize.STRING,
-    // Making `.fitbitId` act like a function hides it when serializing to JSON. HACK for Sequelize's lack of a "private" option.
     get() {
       return () => this.getDataValue('fitbitId')
     }
   },
   fitbitAccessToken: {
     type: Sequelize.STRING,
-    // Making `.fitbitAccessToken` act like a function hides it when serializing to JSON. HACK for Sequelize's lack of a "private" option.
     get() {
       return () => this.getDataValue('fitbitAccessToken')
     },
@@ -242,7 +237,7 @@ User.prototype.fetchSummary = async function() {
     return null
   }
 }
-//#region
+//#region  GET a summary of health data  (Modify & Reuse old code)
 // async fetchSummary() {
 //   const initialized = await this.initialized();
 //   if (!initialized) {
