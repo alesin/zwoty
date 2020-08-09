@@ -15,38 +15,6 @@ module.exports = router
  * set these environment variables.
  */
 
-//#region
-// if (!process.env.FITBIT_CLIENT_ID || !process.env.FITBIT_CLIENT_SECRET) {
-//   console.log('Fitbit client ID / secret not found. Skipping Fitbit OAuth.')
-// } else {
-//   const fitbitConfig = {
-//     clientID: process.env.FITBIT_CLIENT_ID,
-//     clientSecret: process.env.FITBIT_CLIENT_SECRET,
-//     callbackURL: process.env.FITBIT_CALLBACK_URL
-//   }
-
-//   const strategy = new FitbitStrategy(
-//     fitbitConfig,
-//     (token, refreshToken, profile, done) => {
-//       const fitbitId = profile.id
-//       // const email = profile.emails[0].value
-//       // const imgUrl = profile.user.avatar
-//       const firstName = profile.firstName
-//       const lastName = profile.lastName
-//       const fullName = profile.displayName
-
-//     console.log(token)
-
-//       User.findOrCreate({
-//         where: {fitbitId},
-//         defaults: {firstName, lastName}
-//       })
-//         .then(([user]) => done(null, user))
-//         .catch(done)
-//     }
-//   )
-//#endregion
-
 if (!process.env.FITBIT_CLIENT_ID || !process.env.FITBIT_CLIENT_SECRET) {
   console.log('Fitbit client ID / secret not found. Skipping Fitbit OAuth.')
 } else {
@@ -63,7 +31,9 @@ if (!process.env.FITBIT_CLIENT_ID || !process.env.FITBIT_CLIENT_SECRET) {
 
     const userInfo = {
       fitbitId: profile.id,
-      fullName: profile.displayName,
+      // fullName: profile.displayName,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
       fitbitAccessToken: token,
       fitbitRefreshToken: refreshToken
     }
@@ -82,7 +52,7 @@ if (!process.env.FITBIT_CLIENT_ID || !process.env.FITBIT_CLIENT_SECRET) {
   }
 
   // *** configuring the STRATEGY  (credentials + verification callback)
-  // this is used by 'passport.authenticate'
+  // ^ this is used by 'passport.authenticate'
   const strategy = new FitbitStrategy(fitbitCreds, verificationCallback)
 
   passport.use(strategy)
@@ -106,8 +76,6 @@ if (!process.env.FITBIT_CLIENT_ID || !process.env.FITBIT_CLIENT_SECRET) {
   router.get(
     '/verify',
     passport.authenticate('fitbit', {
-      // successRedirect: '/home',
-      // failureRedirect: '/login'
       // TODO: Redirect to dashboard with modal/popover displaying success/failure
       // TODO: Dashboard should show list of connected apps [Fitbit, MyFitnessPal, etc]
       successRedirect: '/dash/fitbit/success',
