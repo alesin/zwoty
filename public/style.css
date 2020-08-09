@@ -24,3 +24,13 @@ form div {
 div .root {
   flex-grow: 1;
 }
+div .oauth {
+  display: flex;
+  padding-top: 10px;
+}
+a.google,
+a.fitbit,
+a.twitter {
+  /* background-color: rgb(194, 168, 23); */
+  margin: auto;
+}
