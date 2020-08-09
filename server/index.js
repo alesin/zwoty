@@ -65,8 +65,9 @@ const createApp = () => {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  // auth and api routes
+  // *** ROUTES: Authentication, Authorization (Connect), and API
   app.use('/auth', require('./auth'))
+  app.use('/connect', require('./connect'))
   app.use('/api', require('./api'))
 
   // static file-serving middleware
