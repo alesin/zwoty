@@ -52,7 +52,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   router.get(
     '/verify',
     passport.authenticate('google', {
-      successRedirect: '/home',
+      successRedirect: '/dash',
       failureRedirect: '/login'
     })
   )
