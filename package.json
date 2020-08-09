@@ -1,7 +1,7 @@
 {
-  "name": "zwoty_BM",
+  "name": "zwoty",
   "version": "2.0.0",
-  "description": "Health is wealth!",
+  "description": "Health is wealth! Your very own health hub — all your favorite apps & personalized insights — the way YOU want it.",
   "engines": {
     "node": "~12.11.1"
   },
