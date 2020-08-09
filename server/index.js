@@ -19,18 +19,16 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 /**
- * In your development environment, you can keep all of your
- * app's secret API keys in a file called `secrets.js`, in your project
- * root. This file is included in the .gitignore - it will NOT be tracked
- * or show up on Github. On your production server, you can add these
- * keys as environment variables, so that they can still be read by the
- * Node process on process.env
+ * In your development environment, you can keep all of your  app's secret API keys in a file called `secrets.js`, in your project root. This file is included in the .gitignore - it will NOT be tracked or show up on Github. On your production server, you can add these keys as environment variables, so that they can still be read by the Node process on process.env
  */
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 // passport registration
+// *** After FIND / CREATE user, we 'serialize' our user on the session
 passport.serializeUser((user, done) => done(null, user.id))
+// passport.serializeUser((user, done) => done(null, user))
 
+// *** Since we have 'serialized' user on session (with an id), use the id to find user and attach the user Obj to req.user
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await db.models.user.findByPk(id)
@@ -39,19 +37,22 @@ passport.deserializeUser(async (id, done) => {
     done(err)
   }
 })
+// passport.deserializeUser((user, done) => {
+//   done(null, user);
+// });
 
 const createApp = () => {
   // logging middleware
   app.use(morgan('dev'))
 
-  // body parsing middleware
+  // *** BODY PARSING middleware
   app.use(express.json())
   app.use(express.urlencoded({extended: true}))
 
   // compression middleware
   app.use(compression())
 
-  // session middleware with passport
+  // *** SESSION middleware
   app.use(
     session({
       secret: process.env.SESSION_SECRET || 'A wildly insecre secret...',
@@ -60,6 +61,7 @@ const createApp = () => {
       saveUninitialized: false
     })
   )
+  // *** PASSPORT middleware (piggyback on SESSION middleware)
   app.use(passport.initialize())
   app.use(passport.session())
 
